@@ -6,7 +6,7 @@
 /*   By: smeixoei <smeixoei@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 12:31:50 by smeixoei          #+#    #+#             */
-/*   Updated: 2024/02/15 13:17:53 by smeixoei         ###   ########.fr       */
+/*   Updated: 2024/02/19 13:00:52 by smeixoei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	ft_reddirect(int **fd, int nbr)
 		ft_error("Error: invalid nbr");
 }
 
-pid_t	ft_first_child(int **fd, char **argv, char **envp)
+pid_t	ft_first_child(int **fd, char **argv, char **env)
 {
 	pid_t	in;
 
@@ -47,14 +47,14 @@ pid_t	ft_first_child(int **fd, char **argv, char **envp)
 	if (in == 0)
 	{
 		ft_reddirect(fd, 1);
-		ft_exec(argv, envp);
+		ft_exec(argv, env);
 	}
 	close(fd[2][1]);
 	close(fd[2][0]);
 	return (in);
 }
 
-void	ft_middle_child(int **fd, char **argv, char **envp)
+void	ft_middle_child(int **fd, char **argv, char **env)
 {
 	pid_t	mid;
 
@@ -68,14 +68,14 @@ void	ft_middle_child(int **fd, char **argv, char **envp)
 		if (mid == 0)
 		{
 			ft_reddirect(fd, 2);
-			ft_exec(argv, envp);
+			ft_exec(argv, env);
 		}
 		close(fd[2][1]);
 		close(fd[1][0]);
 	}
 }
 
-pid_t	ft_final_child(int **fd, char **argv, char **envp)
+pid_t	ft_final_child(int **fd, char **argv, char **env)
 {
 	pid_t	out;
 
@@ -85,7 +85,7 @@ pid_t	ft_final_child(int **fd, char **argv, char **envp)
 	if (out == 0)
 	{
 		ft_reddirect(fd, 3);
-		ft_exec(argv, envp);
+		ft_exec(argv, env);
 	}
 	return (out);
 }

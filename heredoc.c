@@ -6,25 +6,25 @@
 /*   By: smeixoei <smeixoei@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 12:52:41 by smeixoei          #+#    #+#             */
-/*   Updated: 2024/02/15 12:52:49 by smeixoei         ###   ########.fr       */
+/*   Updated: 2024/02/19 13:02:33 by smeixoei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-int ft_check_here_doc(int **fd, int ac, char **av)
+int ft_check_here_doc(int **fd, int argc, char **argv)
 {
     int  here_doc;
     char *infile;
     char *outfile;
 
     here_doc = 0;
-    infile = av[1];
-    outfile = av[ac - 1];
+    infile = argv[1];
+    outfile = argv[argc - 1];
     if (ft_strncmp("here_doc", infile, 9) == 0)
         here_doc = 1;
     if (here_doc)
-        fd[0][0] = ft_heredoc(infile, av[2]);
+        fd[0][0] = ft_heredoc(infile, argv[2]);
     else
         fd[0][0] = open(infile, O_RDONLY);
     if (here_doc)

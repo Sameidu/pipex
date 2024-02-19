@@ -6,7 +6,7 @@
 /*   By: smeixoei <smeixoei@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 12:23:08 by smeixoei          #+#    #+#             */
-/*   Updated: 2024/02/19 12:46:59 by smeixoei         ###   ########.fr       */
+/*   Updated: 2024/02/19 13:00:22 by smeixoei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	ft_exec(char *argv, char **env)
 	}
 }
 
-void	ft_pipex(int argc, char **argv, char **envp)
+void	ft_pipex(int argc, char **argv, char **env)
 {
 	int		**fd;
 	pid_t	child1;
@@ -46,17 +46,17 @@ void	ft_pipex(int argc, char **argv, char **envp)
 	fd = ft_init();
 	if (pipe(fd) == -1)
 		ft_error("Error: pipe failed");
-	child1 = ft_first_child(fd, argv[2], envp);
-	child2 = ft_final_child(fd, argv[4], envp);
+	child1 = ft_first_child(fd, argv[2], env);
+	child2 = ft_final_child(fd, argv[4], env);
 	waitpid(child1, NULL, 0);
 	waitpid(child2, NULL, 0);
 }
 
-int	main(int argc, char **argv, char **envp)
+int	main(int argc, char **argv, char **env)
 {
 	if (argc != 5)
 		ft_error("Error: invalid number of arguments");
 	if (argc == 5)
-		ft_pipex(argc, argv, envp);
+		ft_pipex(argc, argv, env);
 	return (0);
 }
