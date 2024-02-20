@@ -6,7 +6,7 @@
 /*   By: smeixoei <smeixoei@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 12:31:26 by smeixoei          #+#    #+#             */
-/*   Updated: 2024/02/19 12:45:15 by smeixoei         ###   ########.fr       */
+/*   Updated: 2024/02/20 12:47:50 by smeixoei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	ft_error(char *str)
 	exit(EXIT_FAILURE);
 }
 
-void	ft_free(char **str)
+void	ft_free_matrix(char **str)
 {
 	int	i;
 
@@ -29,6 +29,25 @@ void	ft_free(char **str)
 		i++;
 	}
 	free(str);
+}
+
+void	ft_waitchild(pid_t child)
+{
+	int	status;
+	int	pid;
+	int	exit_status;
+
+	pid = 1;
+	while (pid != -1)
+	{
+		pid = waitpid(-1, &status, 0);
+		if (pid == child)
+		{
+			if (WIFEXITED(status))
+				exit_status = WEXITSTATUS(status);
+		}
+	}
+	exit(exit_status);
 }
 
 int	**ft_init(void)

@@ -6,7 +6,7 @@
 /*   By: smeixoei <smeixoei@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 13:19:20 by smeixoei          #+#    #+#             */
-/*   Updated: 2024/02/19 12:48:31 by smeixoei         ###   ########.fr       */
+/*   Updated: 2024/02/20 12:44:08 by smeixoei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,13 +46,13 @@ char	*path_getter(char *cmd, char **env)
 		    free(path);
 		if (access(cmd_path, X_OK) == 0)
 		{
-			ft_free(env_path);
+			ft_free_matrix(env_path);
 			return (cmd_path);
 		}
 		free(cmd_path);
 		i++;
 	}
-	return (ft_free(env_path), NULL);
+	return (ft_free_matrix(env_path), NULL);
 }
 
 int	relative_path(char **cmd, char **path)
@@ -71,7 +71,7 @@ int	relative_path(char **cmd, char **path)
             *path = cmd[0];
         else
         {
-            ft_free(cmd);
+            ft_free_matrix(cmd);
             ft_error("Error: command not found");
         }
     }

@@ -6,7 +6,7 @@
 /*   By: smeixoei <smeixoei@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 12:31:50 by smeixoei          #+#    #+#             */
-/*   Updated: 2024/02/19 13:00:52 by smeixoei         ###   ########.fr       */
+/*   Updated: 2024/02/20 11:38:56 by smeixoei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	ft_reddirect(int **fd, int nbr)
 		ft_error("Error: invalid nbr");
 }
 
-pid_t	ft_first_child(int **fd, char **argv, char **env)
+pid_t	ft_first_child(int **fd, char *argv, char **env)
 {
 	pid_t	in;
 
@@ -54,7 +54,7 @@ pid_t	ft_first_child(int **fd, char **argv, char **env)
 	return (in);
 }
 
-void	ft_middle_child(int **fd, char **argv, char **env)
+void	ft_middle_child(int **fd, char *argv, char **env)
 {
 	pid_t	mid;
 
@@ -75,7 +75,7 @@ void	ft_middle_child(int **fd, char **argv, char **env)
 	}
 }
 
-pid_t	ft_final_child(int **fd, char **argv, char **env)
+pid_t	ft_final_child(int **fd, char *argv, char **env)
 {
 	pid_t	out;
 

@@ -1,20 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   gnl.c                                              :+:      :+:    :+:   */
+/*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: smeixoei <smeixoei@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/14 12:55:26 by smeixoei          #+#    #+#             */
-/*   Updated: 2024/02/14 13:13:26 by smeixoei         ###   ########.fr       */
+/*   Created: 2023/06/12 15:51:31 by smeixoei          #+#    #+#             */
+/*   Updated: 2024/02/20 12:09:44 by smeixoei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
-
-# ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 42
-# endif
+#include "libft.h"
 
 static char	*ft_read(int fd, char *rf)
 {
@@ -22,10 +18,10 @@ static char	*ft_read(int fd, char *rf)
 	int		bytes;
 
 	bytes = 1;
-	nl = ft_calloc((BUFFER_SIZE + 1), sizeof(char));
+	nl = ft_calloc_gnl((BUFFER_SIZE + 1), sizeof(char));
 	if (!nl)
 		return (NULL);
-	while (!ft_strchr(rf, '\n') && bytes != 0)
+	while (!ft_strchr_gnl(rf, '\n') && bytes != 0)
 	{
 		bytes = read(fd, nl, BUFFER_SIZE);
 		if (bytes < 0)
@@ -34,7 +30,7 @@ static char	*ft_read(int fd, char *rf)
 			return (NULL);
 		}
 		nl[bytes] = '\0';
-		rf = ft_strjoin(rf, nl);
+		rf = ft_strjoin_gnl(rf, nl);
 	}
 	free(nl);
 	return (rf);
@@ -51,9 +47,9 @@ char	*ft_line(char *rf)
 	while (rf[i] != '\0' && rf[i] != '\n')
 		i++;
 	if (rf[i] == '\n')
-		line = ft_calloc((i + 2), sizeof(char));
+		line = ft_calloc_gnl((i + 2), sizeof(char));
 	else
-		line = ft_calloc((i + 1), sizeof(char));
+		line = ft_calloc_gnl((i + 1), sizeof(char));
 	if (!line)
 		return (NULL);
 	i = 0;
@@ -82,7 +78,7 @@ char	*ft_rst(char *rf)
 		free(rf);
 		return (NULL);
 	}
-	rst = ft_calloc((ft_strlen(rf) - i + 1), sizeof(char));
+	rst = ft_calloc_gnl((ft_strlen(rf) - i + 1), sizeof(char));
 	if (!rst)
 		return (NULL);
 	i++;
@@ -107,7 +103,7 @@ char	*get_next_line(int fd)
 	}
 	if (!rf)
 	{
-		rf = ft_calloc((BUFFER_SIZE + 1), sizeof(char));
+		rf = ft_calloc_gnl((BUFFER_SIZE + 1), sizeof(char));
 		if (!rf)
 			return (NULL);
 	}

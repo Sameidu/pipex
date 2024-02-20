@@ -6,7 +6,7 @@
 /*   By: smeixoei <smeixoei@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 12:23:08 by smeixoei          #+#    #+#             */
-/*   Updated: 2024/02/19 13:00:22 by smeixoei         ###   ########.fr       */
+/*   Updated: 2024/02/20 12:25:00 by smeixoei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	ft_exec(char *argv, char **env)
     }
 	if (path && execve(path, cmd, env) == -1)
 	{
-		ft_free(cmd);
+		ft_free_matrix(cmd);
 		ft_error("Error: execve failed");
 	}
 }
@@ -40,23 +40,50 @@ void	ft_exec(char *argv, char **env)
 void	ft_pipex(int argc, char **argv, char **env)
 {
 	int		**fd;
-	pid_t	child1;
-	pid_t	child2;
+	pid_t	child;
+	int		heredoc;
 
 	fd = ft_init();
-	if (pipe(fd) == -1)
+	heredoc = ft_check_here_doc(fd, argc, argv);
+	if (pipe(fd[2]) < 0)
 		ft_error("Error: pipe failed");
-	child1 = ft_first_child(fd, argv[2], env);
-	child2 = ft_final_child(fd, argv[4], env);
-	waitpid(child1, NULL, 0);
-	waitpid(child2, NULL, 0);
+	ft_first_child(fd, argv[2 + heredoc], env);
+	child = ft_final_child(fd, argv[argc - 2], env);
+	if (heredoc)
+		unlink("here_doc");
+	ft_waitchild(child);
+
+}
+
+void	pipex_bonus(int ac, char **av, char **env)
+{
+	int		**fd;
+	int		pos;
+    int     here_doc;
+	pid_t	child;
+
+    fd = ft_init();
+	pos = 2;
+	here_doc = ft_check_here_doc(fd, ac, av);
+	if (pipe(fd[2]) < 0)
+		ft_error("pipex");
+    ft_first_child(fd, av[2 + here_doc], env);
+    pos += here_doc;
+	while (ac - 2 > ++pos)
+		ft_middle_child(fd, av[pos], env);
+	child = ft_final_child(fd, av[ac - 2], env);
+    if (here_doc)
+        unlink("here_doc");
+	ft_waitchild(child);
 }
 
 int	main(int argc, char **argv, char **env)
 {
-	if (argc != 5)
-		ft_error("Error: invalid number of arguments");
-	if (argc == 5)
+	if (BONUS == 0 && argc == 5)
 		ft_pipex(argc, argv, env);
+	else if (BONUS == 1 && argc >= 5)
+		pipex_bonus(argc, argv, env);
+	else
+		ft_putendl_fd("Error: invalid arguments", STDERR_FILENO);
 	return (0);
 }

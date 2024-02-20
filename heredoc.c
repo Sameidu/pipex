@@ -6,7 +6,7 @@
 /*   By: smeixoei <smeixoei@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 12:52:41 by smeixoei          #+#    #+#             */
-/*   Updated: 2024/02/19 13:02:33 by smeixoei         ###   ########.fr       */
+/*   Updated: 2024/02/20 11:41:54 by smeixoei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	ft_heredoc(char *argv1, char *argv2)
 	temp_fd = open(argv1, O_CREAT | O_RDWR | O_TRUNC, 0777);
 	while (1)
 	{
-		ft_putstr_fd("heredoc XD >>", 1);
+		ft_putendl_fd("heredoc XD >>", 1);
 		line = get_next_line(STDIN_FILENO);
 		if (!line)
 			break ;
