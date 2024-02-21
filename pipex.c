@@ -6,7 +6,7 @@
 /*   By: smeixoei <smeixoei@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 12:23:08 by smeixoei          #+#    #+#             */
-/*   Updated: 2024/02/20 12:25:00 by smeixoei         ###   ########.fr       */
+/*   Updated: 2024/02/21 13:25:23 by smeixoei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,10 @@ void	ft_exec(char *argv, char **env)
 	cmd = ft_split(argv, ' ');
 	if (!cmd)
 		ft_error("Error: split failed");
-	if (relative_path(cmd, &path) == 0)
+	if (ft_relative_path(cmd, &path) == 0)
     {
         if (cmd[0])
-		    path = path_getter(cmd[0], env);
+		    path = ft_path_getter(cmd[0], env);
     }
 	if (path && execve(path, cmd, env) == -1)
 	{
@@ -41,49 +41,50 @@ void	ft_pipex(int argc, char **argv, char **env)
 {
 	int		**fd;
 	pid_t	child;
-	int		heredoc;
 
 	fd = ft_init();
-	heredoc = ft_check_here_doc(fd, argc, argv);
 	if (pipe(fd[2]) < 0)
 		ft_error("Error: pipe failed");
-	ft_first_child(fd, argv[2 + heredoc], env);
+	ft_first_child(fd, argv[2], env);
 	child = ft_final_child(fd, argv[argc - 2], env);
-	if (heredoc)
-		unlink("here_doc");
 	ft_waitchild(child);
-
 }
 
-void	pipex_bonus(int ac, char **av, char **env)
+void	ft_pipex_bonus(int argc, char **argv, char **env, int **fd, pid_t child)
 {
-	int		**fd;
 	int		pos;
-    int     here_doc;
-	pid_t	child;
+	int     here_doc;
 
-    fd = ft_init();
 	pos = 2;
-	here_doc = ft_check_here_doc(fd, ac, av);
-	if (pipe(fd[2]) < 0)
-		ft_error("pipex");
-    ft_first_child(fd, av[2 + here_doc], env);
-    pos += here_doc;
-	while (ac - 2 > ++pos)
-		ft_middle_child(fd, av[pos], env);
-	child = ft_final_child(fd, av[ac - 2], env);
-    if (here_doc)
-        unlink("here_doc");
+	here_doc = ft_check_here_doc(fd, argc, argv);
+	ft_first_child(fd, argv[2 + here_doc], env);
+	pos += here_doc;
+	while (argc - 2 > ++pos)
+		ft_middle_child(fd, argv[pos], env);
+	child = ft_final_child(fd, argv[argc - 2], env);
+	if (here_doc)
+		unlink("here_doc");
 	ft_waitchild(child);
 }
 
 int	main(int argc, char **argv, char **env)
 {
-	if (BONUS == 0 && argc == 5)
-		ft_pipex(argc, argv, env);
-	else if (BONUS == 1 && argc >= 5)
-		pipex_bonus(argc, argv, env);
+	int		**fd;
+	pid_t	child;
+
+	if (argc < 5 || (ft_strncmp("here_doc", argv[1], 9) == 0 && argc < 6))
+		ft_error("Error: invalid arguments");
+	fd = ft_init();
+	if (pipe(fd[2]) < 0)
+			ft_error("Error: pipe failed");
+	child = 0;
+	if (argc == 5)
+	{
+		ft_first_child(fd, argv[2], env);
+		child = ft_final_child(fd, argv[argc - 2], env);
+		waitpid(child, NULL, 0);
+	}
 	else
-		ft_putendl_fd("Error: invalid arguments", STDERR_FILENO);
+		ft_pipex_bonus(argc, argv, env, fd, child);
 	return (0);
 }

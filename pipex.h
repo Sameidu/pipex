@@ -23,9 +23,9 @@ int 	ft_check_here_doc(int **fd, int argc, char **argv);
 int		ft_heredoc(char *argv1, char *argv2);
 void	ft_reddirect(int **fd, int nbr);
 void	ft_exec(char *argv, char **env);
-int		path_checker(char **env);
-char	*path_getter(char *cmd, char **env);
-int		relative_path(char **cmd, char **path);
+int		ft_path_checker(char **env);
+char	*ft_path_getter(char *cmd, char **env);
+int		ft_relative_path(char **cmd, char **path);
 void	ft_waitchild(pid_t child);
 
 // Libft functions

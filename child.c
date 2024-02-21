@@ -6,7 +6,7 @@
 /*   By: smeixoei <smeixoei@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 12:31:50 by smeixoei          #+#    #+#             */
-/*   Updated: 2024/02/20 11:38:56 by smeixoei         ###   ########.fr       */
+/*   Updated: 2024/02/21 13:22:53 by smeixoei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,18 +61,16 @@ void	ft_middle_child(int **fd, char *argv, char **env)
 	fd[1][0] = fd[2][0];
 	fd[1][1] = fd[2][1];
 	pipe(fd[2]);
+	mid = fork();
+	if (mid < 0)
+		ft_error("Error: fork failed");
+	if (mid == 0)
 	{
-		mid = fork();
-		if (mid < 0)
-			ft_error("Error: fork failed");
-		if (mid == 0)
-		{
-			ft_reddirect(fd, 2);
-			ft_exec(argv, env);
-		}
-		close(fd[2][1]);
-		close(fd[1][0]);
+		ft_reddirect(fd, 2);
+		ft_exec(argv, env);
 	}
+	close(fd[2][1]);
+	close(fd[1][0]);
 }
 
 pid_t	ft_final_child(int **fd, char *argv, char **env)
@@ -85,6 +83,7 @@ pid_t	ft_final_child(int **fd, char *argv, char **env)
 	if (out == 0)
 	{
 		ft_reddirect(fd, 3);
+		printf("argv: %s\n", argv);
 		ft_exec(argv, env);
 	}
 	return (out);

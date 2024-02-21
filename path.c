@@ -6,13 +6,13 @@
 /*   By: smeixoei <smeixoei@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 13:19:20 by smeixoei          #+#    #+#             */
-/*   Updated: 2024/02/20 12:44:08 by smeixoei         ###   ########.fr       */
+/*   Updated: 2024/02/21 12:27:15 by smeixoei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-int	path_checker(char **env)
+int	ft_path_checker(char **env)
 {
 	int	i;
 
@@ -26,14 +26,14 @@ int	path_checker(char **env)
 	return (i);
 }
 
-char	*path_getter(char *cmd, char **env)
+char	*ft_path_getter(char *cmd, char **env)
 {
 	int		i;
 	char	**env_path;
 	char	*path;
 	char	*cmd_path;
 
-	i = path_checker(env);
+	i = ft_path_checker(env);
 	if (!env[i])
 		return (NULL);
 	env_path = ft_split(env[i] + 5, ':');
@@ -55,14 +55,14 @@ char	*path_getter(char *cmd, char **env)
 	return (ft_free_matrix(env_path), NULL);
 }
 
-int	relative_path(char **cmd, char **path)
+int	ft_relative_path(char **cmd, char **path)
 {
 	int	check;
     
     if (*cmd == NULL)
         return (0);
 	check = 0;
-    if (ft_strncmp(*cmd, "./", 2) == 0 || ft_strncmp(*cmd, "/", 1) == 0
+    if (ft_strncmp(*cmd, "/", 1) == 0 || ft_strncmp(*cmd, "./", 2) == 0
 		||  ft_strncmp(*cmd, "../", 2) == 0)
 		check = 1;
 	if (check == 1)
