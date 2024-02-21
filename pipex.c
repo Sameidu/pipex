@@ -6,7 +6,7 @@
 /*   By: smeixoei <smeixoei@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 12:23:08 by smeixoei          #+#    #+#             */
-/*   Updated: 2024/02/21 13:25:23 by smeixoei         ###   ########.fr       */
+/*   Updated: 2024/02/21 13:30:45 by smeixoei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,11 +50,14 @@ void	ft_pipex(int argc, char **argv, char **env)
 	ft_waitchild(child);
 }
 
-void	ft_pipex_bonus(int argc, char **argv, char **env, int **fd, pid_t child)
+void	ft_pipex_bonus(int argc, char **argv, char **env)
 {
+	int		**fd;
+	pid_t	child;
 	int		pos;
 	int     here_doc;
 
+	fd = ft_init();
 	pos = 2;
 	here_doc = ft_check_here_doc(fd, argc, argv);
 	ft_first_child(fd, argv[2 + here_doc], env);
@@ -69,22 +72,11 @@ void	ft_pipex_bonus(int argc, char **argv, char **env, int **fd, pid_t child)
 
 int	main(int argc, char **argv, char **env)
 {
-	int		**fd;
-	pid_t	child;
-
 	if (argc < 5 || (ft_strncmp("here_doc", argv[1], 9) == 0 && argc < 6))
 		ft_error("Error: invalid arguments");
-	fd = ft_init();
-	if (pipe(fd[2]) < 0)
-			ft_error("Error: pipe failed");
-	child = 0;
 	if (argc == 5)
-	{
-		ft_first_child(fd, argv[2], env);
-		child = ft_final_child(fd, argv[argc - 2], env);
-		waitpid(child, NULL, 0);
-	}
+		ft_pipex(argc, argv, env);
 	else
-		ft_pipex_bonus(argc, argv, env, fd, child);
+		ft_pipex_bonus(argc, argv, env);
 	return (0);
 }
