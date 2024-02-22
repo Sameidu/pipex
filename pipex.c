@@ -25,8 +25,8 @@ void    ft_pipex(int argc, char **argv, char **env)
 
 	if (pipe(fd[2]) < 0)
 		ft_error("Error: pipe");
-	ft_first_cmd();
-	child = ft_last_cmd();
+	ft_first_cmd(fd, argv, env);
+	child = ft_last_cmd(fd, argv, env);
 	ft_waitchild(child);
 }
 
