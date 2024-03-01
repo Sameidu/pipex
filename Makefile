@@ -5,9 +5,7 @@ LFT		=	libft/libft.a
 OBJ		=	$(SRCS:.c=.o)
 SRCS	=	pipex.c \
 			child.c \
-			heredoc.c \
-			path.c \
-			utils.c \
+			exec.c
 
 
 all:		$(LFT) $(NAME)

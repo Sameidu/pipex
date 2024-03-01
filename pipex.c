@@ -14,43 +14,47 @@
 
 void    ft_error(char *str)
 {
-	perror(str);
-	exit(EXIT_FAILURE);
+	ft_putendl_fd(str, 2);
+	exit(0);
+}
+
+void    ft_waitchild(pid_t child)
+{
+	int		status;
+	pid_t	wait;
+
+	while ((wait = waitpid(child, &status, 0)) != child)
+	{
+		if (wait == -1)
+			ft_error("Error: command not found");
+	}
+	if (WIFEXITED(status))
+	{
+		if (WEXITSTATUS(status) != 0)
+			ft_error("Error: command not found");
+	}
 }
 
 void    ft_pipex(int argc, char **argv, char **env)
 {
 	int		fd[2][2];
-	pid_t	child;
+	pid_t	child = 0;
 
-	if (pipe(fd[2]) < 0)
+	if (pipe(fd[0]) < 0)
 		ft_error("Error: pipe");
-	ft_first_cmd(fd, argv, env);
-	child = ft_last_cmd(fd, argv, env);
+	ft_first_cmd(&fd[0], argv, env);
+	child = ft_last_cmd(&fd[0], argv, env, argc);
 	ft_waitchild(child);
 }
 
 void    ft_pipex_bonus(int argc, char **argv, char **env)
 {
-	int		fd[2][2];
-	int		cmds;
-	int		here_doc;
-	pid_t	child;
 
-	here_doc = ft_check_heredoc();
-	if (pipe(fd[2]) < 0)
-		ft_error("Error: pipe");
-	cmds = 1 + here_doc;
-	ft_first_cmd();
-	while (++cmds < argc - 2)
-		ft_mid_cmd();
-	child = ft_last_cmd();
-	ft_waitchild(child);	
 }
 
 int main(int argc, char **argv, char **env)
 {
-	if (argc < 5 || (ft_strncmp(argv[1], "here_doc", 9) == 0) && argc < 6)
+	if (argc < 5 || ((ft_strncmp(argv[1], "here_doc", 9) == 0) && argc < 6))
 		ft_error("Error: invalid arguments");
 	if (BONUS == 0 && argc == 5)
 		ft_pipex(argc, argv, env);
