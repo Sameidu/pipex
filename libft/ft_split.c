@@ -6,7 +6,7 @@
 /*   By: smeixoei <smeixoei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 12:09:35 by smeixoei          #+#    #+#             */
-/*   Updated: 2023/06/20 17:01:05 by smeixoei         ###   ########.fr       */
+/*   Updated: 2024/03/05 19:29:02 by smeixoei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ static char	**ft_fillarray(char const *s, char c, char **aux)
 		{
 			pos_c = ft_strchr_pos(s, c);
 			if (pos_c)
-			{	
+			{
 				aux[i] = ft_substr(s, 0, pos_c);
 				if (!aux[i])
 					return (ft_free(aux));

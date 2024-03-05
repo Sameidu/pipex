@@ -10,13 +10,13 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "pipex.h"
+#include "pipex.h"
 
 int	ft_heredoc(char *here_doc, char *limiter)
 {
 	char	*line;
 	int		temp_fd;
-    
+
 	temp_fd = open(here_doc, O_CREAT | O_RDWR | O_TRUNC, 0777);
 	while (1)
 	{
@@ -25,10 +25,10 @@ int	ft_heredoc(char *here_doc, char *limiter)
 		if (!line)
 			break ;
 		if (ft_strncmp(line, limiter, ft_strlen(limiter) + 1) == 10)
-        {
-            free(line);
+		{
+			free(line);
 			break ;
-        }
+		}
 		write(temp_fd, line, ft_strlen(line));
 		free(line);
 	}
@@ -37,10 +37,10 @@ int	ft_heredoc(char *here_doc, char *limiter)
 	return (temp_fd);
 }
 
-void    ft_first_cmd(int (*fd)[2], char **argv, char **env)
+void	ft_first_cmd(int (*fd)[2], char **argv, char **env)
 {
 	pid_t	pid_in;
-	int		fd_in;;
+	int		fd_in;
 
 	if (ft_strncmp("here_doc", argv[1], 9) == 0)
 		fd_in = ft_heredoc(argv[1], argv[2]);
@@ -64,7 +64,7 @@ void    ft_first_cmd(int (*fd)[2], char **argv, char **env)
 	close(fd[0][1]);
 }
 
-void    ft_mid_cmd(int (*fd)[2], char **argv, char **env)
+void	ft_mid_cmd(int (*fd)[2], char **argv, char **env)
 {
 	pid_t	pid_mid;
 
@@ -88,7 +88,7 @@ void    ft_mid_cmd(int (*fd)[2], char **argv, char **env)
 	close(fd[1][1]);
 }
 
-pid_t    ft_last_cmd(int (*fd)[2], char **argv, char **env, int argc)
+pid_t	ft_last_cmd(int (*fd)[2], char **argv, char **env, int argc)
 {
 	pid_t	pid_out;
 	int		fd_out;

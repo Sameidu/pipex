@@ -10,15 +10,15 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "pipex.h"
+#include "pipex.h"
 
-void    ft_error(char *str)
+void	ft_error(char *str)
 {
 	ft_putendl_fd(str, 2);
 	exit(0);
 }
 
-void    ft_waitchild(pid_t child)
+void	ft_waitchild(pid_t child)
 {
 	int		status;
 	pid_t	wait;
@@ -35,11 +35,12 @@ void    ft_waitchild(pid_t child)
 	}
 }
 
-void    ft_pipex(int argc, char **argv, char **env)
+void	ft_pipex(int argc, char **argv, char **env)
 {
 	int		fd[2][2];
-	pid_t	child = 0;
+	pid_t	child;
 
+	child = 0;
 	if (pipe(fd[0]) < 0)
 		ft_error("Error: pipe");
 	ft_first_cmd(&fd[0], argv, env);
@@ -47,7 +48,7 @@ void    ft_pipex(int argc, char **argv, char **env)
 	ft_waitchild(child);
 }
 
-void    ft_pipex_bonus(int argc, char **argv, char **env)
+void	ft_pipex_bonus(int argc, char **argv, char **env)
 {
 	int		fd[2][2];
 	int		cmds;
@@ -67,10 +68,10 @@ void    ft_pipex_bonus(int argc, char **argv, char **env)
 	while (++cmds < argc - 2)
 		ft_mid_cmd(fd, argv, env);
 	child = ft_last_cmd(fd, argv, env, argc);
-	ft_waitchild(child);	
+	ft_waitchild(child);
 }
 
-int main(int argc, char **argv, char **env)
+int	main(int argc, char **argv, char **env)
 {
 	if (argc < 5 || ((ft_strncmp(argv[1], "here_doc", 9) == 0) && argc < 6))
 		ft_error("Error: invalid arguments");

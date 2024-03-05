@@ -6,12 +6,11 @@
 /*   By: smeixoei <smeixoei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 12:19:18 by smeixoei          #+#    #+#             */
-/*   Updated: 2023/09/19 15:53:33 by smeixoei         ###   ########.fr       */
+/*   Updated: 2024/03/05 19:28:51 by smeixoei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-# include <stdio.h>
 
 char	*ft_loop(char *s1, char *s2, char *src)
 {
