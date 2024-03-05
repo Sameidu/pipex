@@ -1,6 +1,6 @@
 NAME	=	pipex
 CC		=	gcc
-CFLAGS	=	-Wall -Wextra -Werror
+CFLAGS	=	-Wall -Wextra -Werror -g3 -fsanitize=address
 LFT		=	libft/libft.a
 OBJ		=	$(SRCS:.c=.o)
 SRCS	=	pipex.c \

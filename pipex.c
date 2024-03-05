@@ -49,7 +49,25 @@ void    ft_pipex(int argc, char **argv, char **env)
 
 void    ft_pipex_bonus(int argc, char **argv, char **env)
 {
+	int		fd[2][2];
+	int		cmds;
+	int		here_doc;
+	pid_t	child;
 
+	here_doc = 0;
+	if (ft_strncmp(argv[1], "here_doc", 9) == 0)
+	{
+		here_doc = 1;
+		ft_heredoc(argv[2], argv[3]);
+	}
+	if (pipe(fd[0]) < 0)
+		ft_error("Error: pipe");
+	cmds = 1 + here_doc;
+	ft_first_cmd(fd, argv, env);
+	while (++cmds < argc - 2)
+		ft_mid_cmd(fd, argv, env);
+	child = ft_last_cmd(fd, argv, env, argc);
+	ft_waitchild(child);	
 }
 
 int main(int argc, char **argv, char **env)
@@ -58,7 +76,9 @@ int main(int argc, char **argv, char **env)
 		ft_error("Error: invalid arguments");
 	if (BONUS == 0 && argc == 5)
 		ft_pipex(argc, argv, env);
-	else if (BONUS == 1)
+	else if (BONUS == 1 && argc >= 5)
 		ft_pipex_bonus(argc, argv, env);
+	else
+		ft_error("Error: invalid arguments");
 	return (0);
 }

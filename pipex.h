@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pipex.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: smeixoei <smeixoei@student.42madrid.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/05 11:58:55 by smeixoei          #+#    #+#             */
+/*   Updated: 2024/03/05 12:59:31 by smeixoei         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef PIPEX_H
 # define PIPEX_H
 
@@ -19,14 +31,12 @@
 void    ft_pipex(int argc, char **argv, char **env);
 void    ft_pipex_bonus(int argc, char **argv, char **env);
 void    ft_error(char *str);
-int 	ft_check_here_doc(int (*fd)[2], int argc, char **argv);
 int		ft_heredoc(char *argv1, char *argv2);
 void    ft_first_cmd(int (*fd)[2], char **argv, char **env);
 void    ft_mid_cmd(int (*fd)[2], char **argv, char **env);
 pid_t    ft_last_cmd(int (*fd)[2], char **argv, char **env, int argc);
 void	ft_waitchild(pid_t child);
-int		ft_path_checker(char **env);
-char	*ft_path_getter(char *cmd, char **env);
+char	*ft_get_path(char *cmd, char **env);
 int		ft_relative_path(char **cmd, char **path);
 void	ft_execute(char *argv, char **env);
 
