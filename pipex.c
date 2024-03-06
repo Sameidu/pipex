@@ -23,7 +23,9 @@ void	ft_waitchild(pid_t child)
 	int		status;
 	pid_t	wait;
 
-	while ((wait = waitpid(child, &status, 0)) != child)
+	wait = waitpid(child, &status, 0);
+	printf("wait: %d\n", wait);
+	while (wait != child)
 	{
 		if (wait == -1)
 			ft_error("Error: command not found");
@@ -45,6 +47,7 @@ void	ft_pipex(int argc, char **argv, char **env)
 		ft_error("Error: pipe");
 	ft_first_cmd(&fd[0], argv, env);
 	child = ft_last_cmd(&fd[0], argv, env, argc);
+	printf("child: %d\n", child);
 	ft_waitchild(child);
 }
 
@@ -66,8 +69,15 @@ void	ft_pipex_bonus(int argc, char **argv, char **env)
 	cmds = 1 + here_doc;
 	ft_first_cmd(fd, argv, env);
 	while (++cmds < argc - 2)
-		ft_mid_cmd(fd, argv, env);
+	{
+		printf("cmds: %d\n", cmds);
+		ft_mid_cmd(fd, &argv[cmds], env);
+	}
+	argv[2] = argv[argc - 2];
+	argv[3] = argv[argc - 1];
+	//printf("argv[2]: %s\n", argv[2]);
 	child = ft_last_cmd(fd, argv, env, argc);
+	printf("child: %d\n", child);
 	ft_waitchild(child);
 }
 

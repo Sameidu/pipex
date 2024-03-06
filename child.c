@@ -20,7 +20,7 @@ int	ft_heredoc(char *here_doc, char *limiter)
 	temp_fd = open(here_doc, O_CREAT | O_RDWR | O_TRUNC, 0777);
 	while (1)
 	{
-		ft_putendl_fd("heredoc > ", 1);
+		ft_putstr_fd("heredoc > ", 1);
 		line = get_next_line(STDIN_FILENO);
 		if (!line)
 			break ;
@@ -40,7 +40,7 @@ int	ft_heredoc(char *here_doc, char *limiter)
 void	ft_first_cmd(int (*fd)[2], char **argv, char **env)
 {
 	pid_t	pid_in;
-	int		fd_in;
+	int		fd_in;;
 
 	if (ft_strncmp("here_doc", argv[1], 9) == 0)
 		fd_in = ft_heredoc(argv[1], argv[2]);
@@ -110,5 +110,7 @@ pid_t	ft_last_cmd(int (*fd)[2], char **argv, char **env, int argc)
 	}
 	close(fd[0][0]);
 	close(fd_out);
+	printf("fd_out: %d\n", fd_out);
+	printf("pid_out: %d\n", pid_out);
 	return (pid_out);
 }
