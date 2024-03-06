@@ -75,7 +75,6 @@ void	ft_pipex_bonus(int argc, char **argv, char **env)
 	}
 	argv[2] = argv[argc - 2];
 	argv[3] = argv[argc - 1];
-	//printf("argv[2]: %s\n", argv[2]);
 	child = ft_last_cmd(fd, argv, env, argc);
 	printf("child: %d\n", child);
 	ft_waitchild(child);

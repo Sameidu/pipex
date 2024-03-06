@@ -40,7 +40,7 @@ int	ft_heredoc(char *here_doc, char *limiter)
 void	ft_first_cmd(int (*fd)[2], char **argv, char **env)
 {
 	pid_t	pid_in;
-	int		fd_in;;
+	int		fd_in;
 
 	if (ft_strncmp("here_doc", argv[1], 9) == 0)
 		fd_in = ft_heredoc(argv[1], argv[2]);
@@ -54,8 +54,6 @@ void	ft_first_cmd(int (*fd)[2], char **argv, char **env)
 	if (pid_in == 0)
 	{
 		dup2(fd_in, STDIN_FILENO);
-		close(fd[1][0]);
-		close(fd[1][1]);
 		dup2(fd[0][1], STDOUT_FILENO);
 		close(fd[0][0]);
 		ft_execute(argv[2], env);
