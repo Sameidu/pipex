@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smeixoei <smeixoei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: smeixoei <smeixoei@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 11:58:55 by smeixoei          #+#    #+#             */
-/*   Updated: 2024/03/06 19:32:53 by smeixoei         ###   ########.fr       */
+/*   Updated: 2024/03/07 12:47:04 by smeixoei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	ft_pipex_bonus(int argc, char **argv, char **env);
 void	ft_error(char *str);
 int		ft_heredoc(char *argv1, char *argv2);
 void	ft_first_cmd(int (*fd)[2], char **argv, char **env);
-void	ft_mid_cmd(int (*fd)[2], char **argv, char **env);
+void	ft_mid_cmd(int (*fd)[2], char **argv, char **env, int cmds);
 pid_t	ft_last_cmd(int (*fd)[2], char **argv, char **env, int argc);
 void	ft_waitchild(pid_t child);
 char	*ft_get_path(char *cmd, char **env);

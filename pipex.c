@@ -45,9 +45,8 @@ void	ft_pipex(int argc, char **argv, char **env)
 	child = 0;
 	if (pipe(fd[0]) < 0)
 		ft_error("Error: pipe");
-	ft_first_cmd(&fd[0], argv, env);
-	child = ft_last_cmd(&fd[0], argv, env, argc);
-	printf("child: %d\n", child);
+	ft_first_cmd(fd, argv, env);
+	child = ft_last_cmd(fd, argv, env, argc);
 	ft_waitchild(child);
 }
 
@@ -66,17 +65,14 @@ void	ft_pipex_bonus(int argc, char **argv, char **env)
 	}
 	if (pipe(fd[0]) < 0)
 		ft_error("Error: pipe");
-	cmds = 1 + here_doc;
+	cmds = 2 + here_doc;
 	ft_first_cmd(fd, argv, env);
 	while (++cmds < argc - 2)
 	{
 		printf("cmds: %d\n", cmds);
-		ft_mid_cmd(fd, &argv[cmds], env);
+		ft_mid_cmd(fd, argv, env, cmds);
 	}
-	argv[2] = argv[argc - 2];
-	argv[3] = argv[argc - 1];
 	child = ft_last_cmd(fd, argv, env, argc);
-	printf("child: %d\n", child);
 	ft_waitchild(child);
 }
 
@@ -90,5 +86,6 @@ int	main(int argc, char **argv, char **env)
 		ft_pipex_bonus(argc, argv, env);
 	else
 		ft_error("Error: invalid arguments");
+	getchar();
 	return (0);
 }
