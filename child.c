@@ -73,21 +73,22 @@ void	ft_mid_cmd(int (*fd)[2], char **argv, char **env, int cmds)
 	printf("pid_mid: %d\n", pid_mid);
 	if (pid_mid < 0)
 		ft_error("Error: fork");
-	printf("fd_mid ---------------> argv[cmds]: %s\n", argv[cmds]);
+	dprintf(0, "fd_mid ---------------> argv[cmds]: %s\n", argv[cmds]);
 	if (pid_mid == 0)
 	{
 		close(fd[1][0]);
 		dup2(fd[0][0], STDIN_FILENO);
 		close(fd[0][0]);
 		close(fd_mid[0]);
-		dup2(fd_mid[0], STDOUT_FILENO);
+		dup2(fd_mid[1], STDOUT_FILENO);
 		close(fd[0][0]);
 		close(fd_mid[1]);
-		printf("fd_mid_child ------> argv[cmds]: %s\n", argv[cmds]);
+		dprintf(0, "fd_mid_child ------> argv[cmds]: %s\n", argv[cmds]);
 		ft_execute(argv[cmds], env);
 	}
 	close(fd[0][0]);
 	close(fd_mid[1]);
+	printf("A A\n");
 	fd[0][0] = fd_mid[0];
 	fd[1][1] = fd_mid[1];
 }

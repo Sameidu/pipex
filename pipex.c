@@ -86,6 +86,5 @@ int	main(int argc, char **argv, char **env)
 		ft_pipex_bonus(argc, argv, env);
 	else
 		ft_error("Error: invalid arguments");
-	getchar();
 	return (0);
 }
