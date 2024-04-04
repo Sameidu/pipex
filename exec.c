@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smeixoei <smeixoei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: smeixoei <smeixoei@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 13:12:06 by smeixoei          #+#    #+#             */
-/*   Updated: 2024/03/05 19:44:24 by smeixoei         ###   ########.fr       */
+/*   Updated: 2024/04/04 12:55:13 by smeixoei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,15 @@ char	*ft_get_path(char *cmd, char **env)
 	char	*c_path;
 	char	**e_path;
 
-	i = 0;
-	while (env[i++])
+	if (access(cmd, X_OK) == 0)
+		return (cmd);
+	while (!(*env) || ft_strncmp(*env, "PATH=", 5) != 0)
 	{
-		if (ft_strncmp(env[i], "PATH=", 5) == 0)
-			break ;
+		if (!(*env))
+			ft_error("Error: PATH not found");
+		env++;
 	}
-	if (!env[i])
-		ft_error("Error: PATH not found");
-	i = ((e_path = ft_split(env[i] + 5, ':')), 0);
+	e_path = ((i = 0), ft_split(env[i] + 5, ':'));
 	while (e_path[i])
 	{
 		c_path = ((path = ft_strjoin(e_path[i], "/")), ft_strjoin(path, cmd));

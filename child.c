@@ -70,10 +70,9 @@ void	ft_mid_cmd(int (*fd)[2], char **argv, char **env, int cmds)
 	if (pipe(fd_mid) < 0)
 		ft_error("Error: pipe");
 	pid_mid = fork();
-	printf("pid_mid: %d\n", pid_mid);
 	if (pid_mid < 0)
 		ft_error("Error: fork");
-	dprintf(0, "fd_mid ---------------> argv[cmds]: %s\n", argv[cmds]);
+	
 	if (pid_mid == 0)
 	{
 		close(fd[1][0]);
@@ -83,12 +82,10 @@ void	ft_mid_cmd(int (*fd)[2], char **argv, char **env, int cmds)
 		dup2(fd_mid[1], STDOUT_FILENO);
 		close(fd[0][0]);
 		close(fd_mid[1]);
-		dprintf(0, "fd_mid_child ------> argv[cmds]: %s\n", argv[cmds]);
 		ft_execute(argv[cmds], env);
 	}
 	close(fd[0][0]);
 	close(fd_mid[1]);
-	printf("A A\n");
 	fd[0][0] = fd_mid[0];
 	fd[1][1] = fd_mid[1];
 }
@@ -107,10 +104,8 @@ pid_t	ft_last_cmd(int (*fd)[2], char **argv, char **env, int argc)
 	pid_out = fork();
 	if (pid_out < 0)
 		ft_error("Error: fork");
-	printf("pid_out: %d\n", pid_out);
 	if (pid_out == 0)
 	{
-		printf("fd_out ------> argv[argc - 2]: %s\n", argv[argc - 2]);
 		dup2(fd[0][0], STDIN_FILENO);
 		close(fd[0][0]);
 		dup2(fd_out, STDOUT_FILENO);
@@ -119,6 +114,5 @@ pid_t	ft_last_cmd(int (*fd)[2], char **argv, char **env, int argc)
 	}
 	close(fd[0][0]);
 	close(fd_out);
-	printf("HOLO\n");
 	return (pid_out);
 }

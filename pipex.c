@@ -15,7 +15,7 @@
 void	ft_error(char *str)
 {
 	ft_putendl_fd(str, 2);
-	exit(0);
+	exit(1);
 }
 
 void	ft_waitchild(pid_t child)
@@ -24,7 +24,6 @@ void	ft_waitchild(pid_t child)
 	pid_t	wait;
 
 	wait = waitpid(child, &status, 0);
-	printf("wait: %d\n", wait);
 	while (wait != child)
 	{
 		if (wait == -1)
@@ -68,16 +67,19 @@ void	ft_pipex_bonus(int argc, char **argv, char **env)
 	cmds = 2 + here_doc;
 	ft_first_cmd(fd, argv, env);
 	while (++cmds < argc - 2)
-	{
-		printf("cmds: %d\n", cmds);
 		ft_mid_cmd(fd, argv, env, cmds);
-	}
 	child = ft_last_cmd(fd, argv, env, argc);
 	ft_waitchild(child);
 }
 
+// void	ft_leaks(void)
+// {
+// 	system("leaks -q pipex");
+// }
+
 int	main(int argc, char **argv, char **env)
 {
+	// atexit(ft_leaks);
 	if (argc < 5 || ((ft_strncmp(argv[1], "here_doc", 9) == 0) && argc < 6))
 		ft_error("Error: invalid arguments");
 	if (BONUS == 0 && argc == 5)
