@@ -22,7 +22,8 @@ $(OBJ):	%.o: %.c
 			@$(CC) $(CFLAGS) -c -o $@ $<
 
 clean:
-			@rm -rf $(OBJ)
+			@make -s $@ -C libft
+			@rm -rf $(OBJ) $(LFT)
 			@echo "\033[31m[✘] $(NAME) objects deleted!\033[0m"
 
 fclean:		clean
