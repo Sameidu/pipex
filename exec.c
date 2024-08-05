@@ -6,7 +6,7 @@
 /*   By: smeixoei <smeixoei@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 13:12:06 by smeixoei          #+#    #+#             */
-/*   Updated: 2024/04/04 12:55:13 by smeixoei         ###   ########.fr       */
+/*   Updated: 2024/07/11 15:44:46 by smeixoei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,11 +65,9 @@ void	ft_execute(char *argv, char **env)
 {
 	char	**cmd;
 	char	*path;
-	int		i;
 
 	if (!*argv)
 		ft_error("Error: invalid argument");
-	i = 0;
 	path = NULL;
 	cmd = ft_split(argv, ' ');
 	if (!cmd)
