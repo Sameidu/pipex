@@ -35,7 +35,7 @@ int	ft_heredoc(char *here_doc, char *limiter)
 	close(tmp_fd);
 	tmp_fd = open(here_doc, O_RDONLY);
 	if (tmp_fd < 0 || unlink(here_doc) < 0) 
-		ft_error("Error: open or unlink");
+		perror("Error: open or unlink");
 	return (tmp_fd);
 }
 
@@ -49,10 +49,10 @@ void	ft_first_cmd(int (*fd)[2], char **argv, char **env)
 	else
 		fd_in = open(argv[1], O_RDONLY);
 	if (fd_in < 0)
-		ft_error("Error: open");
+		perror("Error: open");
 	pid_in = fork();
 	if (pid_in < 0)
-		ft_error("Error: fork");
+		perror("Error: fork");
 	if (pid_in == 0)
 	{
 		dup2(fd_in, STDIN_FILENO);
@@ -70,10 +70,10 @@ void	ft_mid_cmd(int (*fd)[2], char **argv, char **env, int cmds)
 	int		fd_mid[2];
 
 	if (pipe(fd_mid) < 0)
-		ft_error("Error: pipe");
+		perror("Error: pipe");
 	pid_mid = fork();
 	if (pid_mid < 0)
-		ft_error("Error: fork");
+		perror("Error: fork");
 	
 	if (pid_mid == 0)
 	{
@@ -102,10 +102,10 @@ pid_t	ft_last_cmd(int (*fd)[2], char **argv, char **env, int argc)
 	else
 		fd_out = open(argv[argc - 1], O_WRONLY | O_CREAT | O_TRUNC, 0666);
 	if (fd_out < 0)
-		ft_error("Error: open");
+		perror("Error: open");
 	pid_out = fork();
 	if (pid_out < 0)
-		ft_error("Error: fork");
+		perror("Error: fork");
 	if (pid_out == 0)
 	{
 		dup2(fd[0][0], STDIN_FILENO);

@@ -6,7 +6,7 @@
 /*   By: smeixoei <smeixoei@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 11:58:55 by smeixoei          #+#    #+#             */
-/*   Updated: 2024/04/02 13:18:36 by smeixoei         ###   ########.fr       */
+/*   Updated: 2024/08/05 19:46:21 by smeixoei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@
 
 void	ft_pipex(int argc, char **argv, char **env);
 void	ft_pipex_bonus(int argc, char **argv, char **env);
-void	ft_error(char *str);
+void    ft_free_split(char **split);
 int		ft_heredoc(char *argv1, char *argv2);
 void	ft_first_cmd(int (*fd)[2], char **argv, char **env);
 void	ft_mid_cmd(int (*fd)[2], char **argv, char **env, int cmds);
