@@ -34,7 +34,7 @@ int	ft_heredoc(char *here_doc, char *limiter)
 	}
 	close(tmp_fd);
 	tmp_fd = open(here_doc, O_RDONLY);
-	if (tmp_fd < 0 || unlink(here_doc) < 0) 
+	if (tmp_fd < 0 || unlink(here_doc) < 0)
 		ft_error("Error: open or unlink", &tmp_fd);
 	return (tmp_fd);
 }

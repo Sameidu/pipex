@@ -6,7 +6,7 @@
 /*   By: smeixoei <smeixoei@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 13:12:06 by smeixoei          #+#    #+#             */
-/*   Updated: 2024/08/06 17:37:37 by smeixoei         ###   ########.fr       */
+/*   Updated: 2024/08/06 18:59:58 by smeixoei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,28 +14,28 @@
 
 char	*ft_search_path(char *cmd, char **e_path)
 {
-	int i;
-    char *path;
-    char *c_path;
+	int		i;
+	char	*path;
+	char	*c_path;
 
-    i = 0;
-    while (e_path[i])
-    {
-        path = ft_strjoin(e_path[i], "/");
-        if (path)
-        {
-            c_path = ft_strjoin(path, cmd);
-            free(path);
-            if (c_path)
-            {
-                if (access(c_path, X_OK) == 0)
-                    return (c_path);
-                free(c_path);
-            }
-        }
-        i++;
-    }
-    return (NULL);
+	i = 0;
+	while (e_path[i])
+	{
+		path = ft_strjoin(e_path[i], "/");
+		if (path)
+		{
+			c_path = ft_strjoin(path, cmd);
+			free(path);
+			if (c_path)
+			{
+				if (access(c_path, X_OK) == 0)
+					return (c_path);
+				free(c_path);
+			}
+		}
+		i++;
+	}
+	return (NULL);
 }
 
 char	*ft_get_path(char *cmd, char **env)

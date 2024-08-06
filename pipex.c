@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: smeixoei <smeixoei@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/21 19:34:20 by smeixoei          #+#    #+#             */
-/*   Updated: 2024/02/21 19:34:20 by smeixoei         ###   ########.fr       */
+/*   Created: 2024/08/06 19:04:16 by smeixoei          #+#    #+#             */
+/*   Updated: 2024/08/06 19:04:16 by smeixoei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,16 +28,15 @@ void	ft_waitchild(pid_t *child, int cmds)
 		}
 		i++;
 	}
-
 }
 
 void	ft_pipex(int argc, char **argv, char **env)
 {
 	int		fd[2][2];
 	pid_t	child[argc - 3];
-	int i = 0;
+	int		i;
 
-
+	i = 0;
 	if (pipe(fd[0]) < 0)
 		ft_error("Error: pipe", NULL);
 	child[i++] = ft_first_cmd(fd, argv, env);
