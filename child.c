@@ -39,7 +39,7 @@ int	ft_heredoc(char *here_doc, char *limiter)
 	return (tmp_fd);
 }
 
-void	ft_first_cmd(int (*fd)[2], char **argv, char **env)
+pid_t	ft_first_cmd(int (*fd)[2], char **argv, char **env)
 {
 	pid_t	pid_in;
 	int		fd_in;
@@ -62,9 +62,10 @@ void	ft_first_cmd(int (*fd)[2], char **argv, char **env)
 	}
 	close(fd_in);
 	close(fd[0][1]);
+	return (pid_in);
 }
 
-void	ft_mid_cmd(int (*fd)[2], char **argv, char **env, int cmds)
+pid_t	ft_mid_cmd(int (*fd)[2], char **argv, char **env, int cmds)
 {
 	pid_t	pid_mid;
 	int		fd_mid[2];
@@ -90,6 +91,7 @@ void	ft_mid_cmd(int (*fd)[2], char **argv, char **env, int cmds)
 	close(fd_mid[1]);
 	fd[0][0] = fd_mid[0];
 	fd[1][1] = fd_mid[1];
+	return (pid_mid);
 }
 
 pid_t	ft_last_cmd(int (*fd)[2], char **argv, char **env, int argc)
