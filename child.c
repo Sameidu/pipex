@@ -75,7 +75,6 @@ pid_t	ft_mid_cmd(int (*fd)[2], char **argv, char **env, int cmds)
 	pid_mid = fork();
 	if (pid_mid < 0)
 		ft_error("Error: fork", NULL);
-	
 	if (pid_mid == 0)
 	{
 		close(fd[1][0]);

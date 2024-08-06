@@ -6,7 +6,7 @@
 /*   By: smeixoei <smeixoei@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 13:12:06 by smeixoei          #+#    #+#             */
-/*   Updated: 2024/08/06 12:18:05 by smeixoei         ###   ########.fr       */
+/*   Updated: 2024/08/06 17:37:37 by smeixoei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,10 +95,7 @@ void	ft_execute(char *argv, char **env)
 		if (cmd[0])
 			path = ft_get_path(cmd[0], env);
 	}
-	if (path && execve(path, cmd, env) == -1)
-	{
-		free(path);
+	if (!path || execve(path, cmd, env) == -1)
 		ft_error("Error: execve failed", NULL);
-	}
 	ft_free_split(cmd);
 }

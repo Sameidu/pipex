@@ -23,30 +23,25 @@ void	ft_waitchild(pid_t *child, int cmds)
 	{
 		wait = waitpid(child[i], &status, 0);
 		if (wait == -1)
-			ft_error("Error: waitpid", NULL);
-		else
 		{
-			if (WIFEXITED(status))
-			{
-				if (WEXITSTATUS(status) != 0)
-					ft_error("Error: child process", NULL);
-			}
+			ft_error("Error: waitpid", NULL);
 		}
 		i++;
 	}
+
 }
 
 void	ft_pipex(int argc, char **argv, char **env)
 {
 	int		fd[2][2];
-	pid_t	child[argc - 2];
+	pid_t	child[argc - 3];
 	int i = 0;
+
 
 	if (pipe(fd[0]) < 0)
 		ft_error("Error: pipe", NULL);
-	child[i] = ft_first_cmd(fd, argv, env);
-	i++;
-	child[i] = ft_last_cmd(fd, argv, env, argc);
+	child[i++] = ft_first_cmd(fd, argv, env);
+	child[i++] = ft_last_cmd(fd, argv, env, argc);
 	ft_waitchild(child, i);
 }
 
@@ -56,7 +51,7 @@ void	ft_pipex_bonus(int argc, char **argv, char **env)
 	int		cmds;
 	int		here_doc;
 	int		i;
-	pid_t	child[argc - 2];
+	pid_t	child[argc - 3];
 
 	here_doc = 0;
 	i = 0;
@@ -68,7 +63,7 @@ void	ft_pipex_bonus(int argc, char **argv, char **env)
 	child[i++] = ft_first_cmd(fd, argv, env);
 	while (++cmds < argc - 2)
 		child[i++] = ft_mid_cmd(fd, argv, env, cmds);
-	child[i] = ft_last_cmd(fd, argv, env, argc);
+	child[i++] = ft_last_cmd(fd, argv, env, argc);
 	ft_waitchild(child, i);
 }
 
