@@ -6,7 +6,7 @@
 /*   By: smeixoei <smeixoei@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 13:12:06 by smeixoei          #+#    #+#             */
-/*   Updated: 2024/08/05 20:04:01 by smeixoei         ###   ########.fr       */
+/*   Updated: 2024/08/06 12:18:05 by smeixoei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,12 +48,12 @@ char	*ft_get_path(char *cmd, char **env)
 	while (!(*env) || ft_strncmp(*env, "PATH=", 5) != 0)
 	{
 		if (!(*env))
-			perror("Error: PATH not found");
+			ft_error("Error: path not found", NULL);
 		env++;
 	}
 	e_path = ft_split(env[0] + 5, ':');
 	if (!e_path)
-		return (NULL);
+		ft_error("Error: split", NULL);
 	c_path = ft_search_path(cmd, e_path);
 	ft_free_split(e_path);
 	return (c_path);
@@ -74,7 +74,7 @@ int	ft_relative_path(char **cmd, char **path)
 		if (access(cmd[0], F_OK) == 0)
 			*path = cmd[0];
 		else
-			perror("Error: command not found");
+			ft_error("Error: file not found", NULL);
 	}
 	return (check);
 }
@@ -85,11 +85,11 @@ void	ft_execute(char *argv, char **env)
 	char	*path;
 
 	if (!*argv)
-		perror("Error: invalid argument");
+		ft_error("Error: command not found", NULL);
 	path = NULL;
 	cmd = ft_split(argv, ' ');
 	if (!cmd)
-		perror("Error: split");
+		ft_error("Error: split", NULL);
 	if (ft_relative_path(cmd, &path) == 0)
 	{
 		if (cmd[0])
@@ -98,7 +98,7 @@ void	ft_execute(char *argv, char **env)
 	if (path && execve(path, cmd, env) == -1)
 	{
 		free(path);
-		perror("Error: execve failed");
+		ft_error("Error: execve failed", NULL);
 	}
 	ft_free_split(cmd);
 }

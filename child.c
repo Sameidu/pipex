@@ -18,13 +18,13 @@ int	ft_heredoc(char *here_doc, char *limiter)
 	int		tmp_fd;
 
 	tmp_fd = open(here_doc, O_CREAT | O_RDWR | O_TRUNC, 0777);
+	if (tmp_fd < 0)
+		ft_error("Error: open", &tmp_fd);
 	while (1)
 	{
 		ft_putstr_fd("heredoc > ", 1);
 		line = get_next_line(STDIN_FILENO);
-		if (!line)
-			break ;
-		if (ft_strncmp(line, limiter, ft_strlen(limiter)) == 0)
+		if (!line || (ft_strncmp(line, limiter, ft_strlen(limiter)) == 0))
 		{
 			free(line);
 			break ;
@@ -35,7 +35,7 @@ int	ft_heredoc(char *here_doc, char *limiter)
 	close(tmp_fd);
 	tmp_fd = open(here_doc, O_RDONLY);
 	if (tmp_fd < 0 || unlink(here_doc) < 0) 
-		perror("Error: open or unlink");
+		ft_error("Error: open or unlink", &tmp_fd);
 	return (tmp_fd);
 }
 
@@ -49,10 +49,10 @@ pid_t	ft_first_cmd(int (*fd)[2], char **argv, char **env)
 	else
 		fd_in = open(argv[1], O_RDONLY);
 	if (fd_in < 0)
-		perror("Error: open");
+		ft_error("Error: open", &fd_in);
 	pid_in = fork();
 	if (pid_in < 0)
-		perror("Error: fork");
+		ft_error("Error: fork", &fd_in);
 	if (pid_in == 0)
 	{
 		dup2(fd_in, STDIN_FILENO);
@@ -71,10 +71,10 @@ pid_t	ft_mid_cmd(int (*fd)[2], char **argv, char **env, int cmds)
 	int		fd_mid[2];
 
 	if (pipe(fd_mid) < 0)
-		perror("Error: pipe");
+		ft_error("Error: pipe", NULL);
 	pid_mid = fork();
 	if (pid_mid < 0)
-		perror("Error: fork");
+		ft_error("Error: fork", NULL);
 	
 	if (pid_mid == 0)
 	{
@@ -83,14 +83,12 @@ pid_t	ft_mid_cmd(int (*fd)[2], char **argv, char **env, int cmds)
 		close(fd[0][0]);
 		close(fd_mid[0]);
 		dup2(fd_mid[1], STDOUT_FILENO);
-		close(fd[0][0]);
 		close(fd_mid[1]);
 		ft_execute(argv[cmds], env);
 	}
 	close(fd[0][0]);
 	close(fd_mid[1]);
 	fd[0][0] = fd_mid[0];
-	fd[1][1] = fd_mid[1];
 	return (pid_mid);
 }
 
@@ -104,10 +102,10 @@ pid_t	ft_last_cmd(int (*fd)[2], char **argv, char **env, int argc)
 	else
 		fd_out = open(argv[argc - 1], O_WRONLY | O_CREAT | O_TRUNC, 0666);
 	if (fd_out < 0)
-		perror("Error: open");
+		ft_error("Error: open", &fd_out);
 	pid_out = fork();
 	if (pid_out < 0)
-		perror("Error: fork");
+		ft_error("Error: fork", &fd_out);
 	if (pid_out == 0)
 	{
 		dup2(fd[0][0], STDIN_FILENO);

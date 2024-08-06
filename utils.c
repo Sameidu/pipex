@@ -12,6 +12,14 @@
 
 #include "pipex.h"
 
+void    ft_error(char *str, int *fd)
+{
+    if (fd != NULL && *fd >= 0)
+        close(*fd);
+    perror(str);
+    exit(1);
+}
+
 void    ft_free_split(char **split)
 {
     int i;
