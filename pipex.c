@@ -23,9 +23,7 @@ void	ft_waitchild(pid_t *child, int cmds)
 	{
 		wait = waitpid(child[i], &status, 0);
 		if (wait == -1)
-		{
 			ft_error("Error: waitpid", NULL);
-		}
 		i++;
 	}
 }
