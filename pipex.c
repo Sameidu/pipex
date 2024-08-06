@@ -69,7 +69,7 @@ void	ft_pipex_bonus(int argc, char **argv, char **env)
 	while (++cmds < argc - 2)
 		child[i++] = ft_mid_cmd(fd, argv, env, cmds);
 	child[i] = ft_last_cmd(fd, argv, env, argc);
-	ft_waitchild(child, cmds);
+	ft_waitchild(child, i);
 }
 
 // void	ft_leaks(void)
