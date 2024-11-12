@@ -6,7 +6,7 @@
 /*   By: smeixoei <smeixoei@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 13:12:06 by smeixoei          #+#    #+#             */
-/*   Updated: 2024/08/06 18:59:58 by smeixoei         ###   ########.fr       */
+/*   Updated: 2024/11/12 11:13:47 by smeixoei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,10 @@ void	ft_execute(char *argv, char **env)
 		if (cmd[0])
 			path = ft_get_path(cmd[0], env);
 	}
-	if (!path || execve(path, cmd, env) == -1)
-		ft_error("Error: execve failed", NULL);
+	printf("path: %s\n", path);
+	if (!path)
+		ft_error("Error: command not found", NULL);
+	if (execve(path, cmd, env) == -1)
+		ft_error("Error: execve", NULL);
 	ft_free_split(cmd);
 }
